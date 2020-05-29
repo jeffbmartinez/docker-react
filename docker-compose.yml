@@ -1,0 +1,20 @@
+version: '3'
+services:
+  web:
+    stdin_open: true # required workaround for bug in Create React App 3.4.1: https://github.com/facebook/create-react-app/issues/8688 . A fix has been merged into master branch, but has yet to be released.
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3000:3000'
+    volumes:
+      - /app/node_modules
+      - .:/app
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ['npm', 'run', 'test']
